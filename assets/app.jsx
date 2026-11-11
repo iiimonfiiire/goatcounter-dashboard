@@ -656,7 +656,9 @@ function Breakdown({ title, page, range, nonce, kind = 'donut', limit = 10 }) {
   return (
     <Card title={title} res={res} className="s4" skeletonHeight={150}>
       {(data) => {
-        const rows = (data.stats || []).map((r) => ({ key: r.id || r.name, name: r.name || 'Unknown', count: r.count }));
+        const SIZE_NAMES = { phone: 'Phones', largephone: 'Large phones', tablet: 'Tablets', desktop: 'Desktop', desktophd: 'Desktop HD', unknown: 'Unknown' };
+        const label = (r) => r.name || (page === 'sizes' && SIZE_NAMES[r.id]) || 'Unknown';
+        const rows = (data.stats || []).filter((r) => r.count > 0).map((r) => ({ key: r.id || r.name, name: label(r), count: r.count }));
         return kind === 'donut' ? <Donut rows={rows} label={`${title} breakdown`} /> : <BarList rows={rows.slice(0, 8)} label={title} />;
       }}
     </Card>

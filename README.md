@@ -22,7 +22,7 @@ A self-hosted, read-only analytics dashboard for hosted [GoatCounter](https://ww
 
    | Variable | Meaning |
    |---|---|
-   | `GOATCOUNTER_HOST` | Your site host, for example `your-site.goatcounter.com` |
+   | `GOATCOUNTER_HOST` | Your site host, for example `your-site.goatcounter.com`. No `https://` and no trailing slash |
    | `GOATCOUNTER_API_KEY` | The read-only key |
    | `PORT` | Host port, default `8090` |
 
