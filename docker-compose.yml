@@ -1,0 +1,15 @@
+services:
+  dashboard:
+    image: nginx:1.27-alpine
+    ports:
+      - "${PORT:-8090}:80"
+    environment:
+      GOATCOUNTER_HOST: ${GOATCOUNTER_HOST:?set GOATCOUNTER_HOST in .env}
+      GOATCOUNTER_API_KEY: ${GOATCOUNTER_API_KEY:?set GOATCOUNTER_API_KEY in .env}
+    volumes:
+      - ./nginx.conf.template:/etc/nginx/templates/default.conf.template:ro
+      - ./index.html:/usr/share/nginx/html/index.html:ro
+      - ./assets:/usr/share/nginx/html/assets:ro
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
