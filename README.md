@@ -25,6 +25,8 @@ A self-hosted, read-only analytics dashboard for hosted [GoatCounter](https://ww
    | `GOATCOUNTER_HOST` | Your site host, for example `your-site.goatcounter.com`. No `https://` and no trailing slash |
    | `GOATCOUNTER_API_KEY` | The read-only key |
    | `PORT` | Host port, default `8090` |
+| `SITE_NAME` | Optional name shown in the page header and tab title, for example `Acme` gives "Acme Analytics" |
+| `SITE_URL` | Optional link to your GoatCounter page. Defaults to `https://$GOATCOUNTER_HOST` |
 
 3. Start it:
 
