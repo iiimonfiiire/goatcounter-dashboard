@@ -675,6 +675,15 @@ function App() {
   const [nonce, setNonce] = useState(0);
   const [theme, setTheme] = useState(document.documentElement.getAttribute('data-theme') || 'dark');
   const [hint, setHint] = useState('');
+  const [site, setSite] = useState({ name: '', url: '' });
+  useEffect(() => {
+    fetch('config.json').then((r) => (r.ok ? r.json() : null)).then((c) => {
+      if (c && typeof c === 'object') setSite({ name: String(c.name || ''), url: /^https:\/\//.test(c.url || '') ? c.url : '' });
+    }).catch(() => {});
+  }, []);
+  useEffect(() => {
+    document.title = site.name ? `${site.name} \u2013 Analytics dashboard (powered by GoatCounter)` : 'Analytics dashboard (powered by GoatCounter)';
+  }, [site.name]);
   api.demo = demo;
 
   const range = useMemo(() => resolveRange(rangeState), [rangeState]);
@@ -715,7 +724,7 @@ function App() {
     <div className="wrap">
       <header className="header">
         <div>
-          <h1>Analytics {demo ? <span className="badge">Demo data</span> : null}</h1>
+          <h1>{site.name ? `${site.name} Analytics` : 'Analytics'} {demo ? <span className="badge">Demo data</span> : null}</h1>
           <div className="sub">{single ? fmtDay(range.from) : `${fmtDay(range.from)} to ${fmtDay(range.to)}`} compared with {single ? 'the day before' : `${fmtDay(prevRange.from)} to ${fmtDay(prevRange.to)}`}</div>
         </div>
         <div className="controls">
@@ -727,6 +736,7 @@ function App() {
               </button>
             ))}
           </div>
+          {site.url ? <a className="btn" href={site.url} target="_blank" rel="noopener noreferrer">GoatCounter &#8599;</a> : null}
           <button type="button" className="btn" onClick={() => { api.clear(); setNonce((n) => n + 1); }}>Refresh</button>
           <button type="button" className="btn" aria-pressed={demo} onClick={() => setDemo(!demo)}>Demo</button>
           <button type="button" className="btn" onClick={toggleTheme} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}>{theme === 'dark' ? 'Light' : 'Dark'}</button>
@@ -753,6 +763,11 @@ function App() {
         <Breakdown title="Devices" page="sizes" range={range} nonce={nonce} />
         <Breakdown title="Languages" page="languages" range={range} nonce={nonce} kind="bars" />
       </main>
+
+      <footer className="footer">
+        Powered by <a href="https://www.goatcounter.com" target="_blank" rel="noopener noreferrer">GoatCounter</a>
+        {site.url ? <> <span aria-hidden="true">&middot;</span> <a href={site.url} target="_blank" rel="noopener noreferrer">Open GoatCounter dashboard</a></> : null}
+      </footer>
     </div>
   );
 }

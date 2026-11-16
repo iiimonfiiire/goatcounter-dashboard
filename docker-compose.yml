@@ -6,6 +6,8 @@ services:
     environment:
       GOATCOUNTER_HOST: ${GOATCOUNTER_HOST:?set GOATCOUNTER_HOST in .env}
       GOATCOUNTER_API_KEY: ${GOATCOUNTER_API_KEY:?set GOATCOUNTER_API_KEY in .env}
+      SITE_NAME: ${SITE_NAME:-}
+      SITE_URL: ${SITE_URL:-https://${GOATCOUNTER_HOST}}
     volumes:
       - ./nginx.conf.template:/etc/nginx/templates/default.conf.template:ro
       - ./index.html:/usr/share/nginx/html/index.html:ro
