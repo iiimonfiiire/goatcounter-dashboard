@@ -25,6 +25,7 @@ A self-hosted, read-only analytics dashboard for hosted [GoatCounter](https://ww
    | `GOATCOUNTER_HOST` | Your site host, for example `your-site.goatcounter.com`. No `https://` and no trailing slash |
    | `GOATCOUNTER_API_KEY` | The read-only key |
    | `PORT` | Host port, default `8090` |
+   | `BIND_ADDRESS` | Interface to listen on, default `127.0.0.1`. Set it to a LAN or VPN address to reach the dashboard from other devices |
 | `SITE_NAME` | Optional name shown in the page header and tab title, for example `Acme` gives "Acme Analytics" |
 | `SITE_URL` | Optional link to your GoatCounter page. Defaults to `https://$GOATCOUNTER_HOST` |
 
@@ -34,7 +35,7 @@ A self-hosted, read-only analytics dashboard for hosted [GoatCounter](https://ww
    docker compose up -d
    ```
 
-4. Open `http://<server>:8090`.
+4. Open `http://127.0.0.1:8090`, or the address you set in `BIND_ADDRESS`.
 
 Docker Compose refuses to start if the host or key is missing. `.env` is gitignored.
 
@@ -67,4 +68,8 @@ then open `http://localhost:8080/?demo=1`. Page scripts still load from unpkg.
 
 ## Security
 
-The proxy serves statistics to anyone who can reach the port, with no authentication. Keep it on a LAN or a private mesh such as Tailscale and do not expose it to the internet or forward the port. Use a read-only key.
+The proxy serves statistics to anyone who can reach the port, with no authentication. It listens on `127.0.0.1` by default. To use it from other devices, bind it to a private network address such as a VPN or mesh, or put an authenticating reverse proxy in front. Do not expose it to the internet. Use a read-only key. See [SECURITY.md](SECURITY.md).
+
+## License
+
+[MIT](LICENSE)

@@ -54,7 +54,8 @@ function readUrl() {
   const valid = (s) => /^\d{4}-\d{2}-\d{2}$/.test(s || '');
   const state = { preset, from: valid(q.get('from')) ? q.get('from') : addDays(today, -29), to: valid(q.get('to')) ? q.get('to') : today };
   if (state.preset === 'custom' && (state.from > state.to || diffDays(state.from, state.to) >= MAX_CUSTOM_DAYS)) state.preset = '30d';
-  return { state, demo: q.get('demo') === '1' };
+  const staticHost = /\.github\.io$/.test(window.location.hostname);
+  return { state, demo: q.get('demo') === '1' || staticHost };
 }
 
 /* ---------- demo data ---------- */
