@@ -2,7 +2,7 @@ services:
   dashboard:
     image: nginx:1.27-alpine
     ports:
-      - "${PORT:-8090}:80"
+      - "${BIND_ADDRESS:-127.0.0.1}:${PORT:-8090}:80"
     environment:
       GOATCOUNTER_HOST: ${GOATCOUNTER_HOST:?set GOATCOUNTER_HOST in .env}
       GOATCOUNTER_API_KEY: ${GOATCOUNTER_API_KEY:?set GOATCOUNTER_API_KEY in .env}
